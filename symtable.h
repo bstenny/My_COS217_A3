@@ -1,6 +1,6 @@
-//
-// Created by Blake Stenstrom on 3/15/22.
-//
+/*
+ * Created by Blake Stenstrom on 3/15/22.
+*/
 
 #ifndef MY_COS217_A3_SYMTABLE_H
 #define MY_COS217_A3_SYMTABLE_H
@@ -26,4 +26,4 @@ void SymTable_map(SymTable_T oSymTable,
                   void (*pfApply)(const char *pcKey, void *pvValue, void *pvExtra),
                   const void *pvExtra);
 
-#endif //MY_COS217_A3_SYMTABLE_H
+#endif 
