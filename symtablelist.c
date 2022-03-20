@@ -1,6 +1,6 @@
-//
-// Created by Blake Stenstrom on 3/15/22.
-//
+/*
+ * Created by Blake Stenstrom on 3/15/22.
+*/
 
 #include <assert.h>
 #include <stdlib.h>
