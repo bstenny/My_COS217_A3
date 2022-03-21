@@ -30,8 +30,8 @@ struct symTable
 
 SymTable_T SymTable_new(void)
 {
-    SymTable_T oSymTable;
     printf("testing");
+    SymTable_T oSymTable;
     oSymTable = (SymTable_T)malloc(sizeof(struct symTable));
     if (oSymTable == NULL) {
         return NULL;

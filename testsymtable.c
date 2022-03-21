@@ -108,6 +108,7 @@ static void testBasics(void)
    printf("Testing the most basic SymTable functions.\n");
    printf("No output should appear here:\n");
    fflush(stdout);
+   printf("Flush worked");
 
    /* Test SymTable_new(). */
 
