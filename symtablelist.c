@@ -31,12 +31,11 @@ struct symTable
 SymTable_T SymTable_new(void)
 {
     SymTable_T oSymTable;
-
+    printf("testing");
     oSymTable = (SymTable_T)malloc(sizeof(struct symTable));
     if (oSymTable == NULL) {
         return NULL;
     }
-    printf("testing");
     oSymTable->psFirstNode = NULL;
     oSymTable->psFirstNode->pvKey = NULL;
     oSymTable->numNodes = 0;
