@@ -4,6 +4,8 @@
 
 #ifndef MY_COS217_A3_SYMTABLE_H
 #define MY_COS217_A3_SYMTABLE_H
+#include <stdlib.h>
+
 
 typedef struct symTable *SymTable_T;
 
