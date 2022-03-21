@@ -4,6 +4,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "symtable.h"
 #include <string.h>
 
@@ -35,6 +36,7 @@ SymTable_T SymTable_new(void)
     if (oSymTable == NULL) {
         return NULL;
     }
+    printf("testing");
     oSymTable->psFirstNode = NULL;
     oSymTable->psFirstNode->pvKey = NULL;
     oSymTable->numNodes = 0;
