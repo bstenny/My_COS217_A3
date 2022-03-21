@@ -5,7 +5,7 @@
 #ifndef MY_COS217_A3_SYMTABLE_H
 #define MY_COS217_A3_SYMTABLE_H
 
-typedef struct SymTable *SymTable_T;
+typedef struct symTable *SymTable_T;
 
 SymTable_T SymTable_new(void);
 
