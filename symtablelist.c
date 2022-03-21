@@ -16,7 +16,7 @@ struct symTableNode
     const void *pvValue;
 
     /* The address of the next symTableNode. */
-    struct SymTableNode *psNextNode;
+    struct symTableNode *psNextNode;
 };
 
 struct symTable
@@ -70,7 +70,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 
     assert(oSymTable != NULL);
 
-    psNewNode = (struct SymTableNode*)malloc(sizeof(struct symTableNode));
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL)
         return 0;
 
