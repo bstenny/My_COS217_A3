@@ -187,10 +187,10 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         psNewNode = psNewNode->psNextNode;
     }
      */
-    if(!strcmp(psNewNode->pvKey, pcKey)) {
+    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
         nextNode = psNewNode->psNextNode;
         value = psNewNode->pvValue;
-        psNewNode->psNextNode = nextNode->psNextNode;
+        oSymTable->psFirstNode = nextNode;
         free(nextNode->pvKey);
         free(nextNode);
         oSymTable->numNodes--;
