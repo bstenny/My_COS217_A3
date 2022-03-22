@@ -208,9 +208,10 @@ void SymTable_map(SymTable_T oSymTable,
         return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
+    pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra); /* edge case */
     while (psNewNode->psNextNode) {
-        pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra);
         psNewNode = psNewNode->psNextNode;
+        pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra);
     }
 }
 
