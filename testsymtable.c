@@ -506,7 +506,8 @@ static void testEmptyKey(void)
     fflush(stdout);
    pcValue = (char*)SymTable_remove(oSymTable, "");
    ASSURE(pcValue == acShortstop);
-
+    printf("TEst 2\n");
+    fflush(stdout);
    SymTable_free(oSymTable);
 }
 
