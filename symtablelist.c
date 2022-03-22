@@ -73,7 +73,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     if (psNewNode == NULL) {
         return 0;
     }
-    
+
     if (SymTable_contains(oSymTable, pcKey) == 1){
         return 0;
     }
@@ -116,11 +116,15 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
         return 0;
     }
     psNewNode = oSymTable->psFirstNode;
+    printf("Test 1");
     while (psNewNode->psNextNode) {
+        printf("Test 2 should print every loop");
         if (!strcmp(psNewNode->pvKey, pcKey)) {
+            printf("Test 3 should print if it contains");
             return 1;
         }
         psNewNode = psNewNode->psNextNode;
+        printf("Test 4 should print after we update psNewNode");
     }
     return 0;
 }
