@@ -163,7 +163,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     struct symTableNode *nextNode;
     void *value;
     assert(oSymTable != NULL);
-    assert(oSymTable->psFirstNode != NULL);
+    /* assert(oSymTable->psFirstNode != NULL); */
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
         return NULL;
