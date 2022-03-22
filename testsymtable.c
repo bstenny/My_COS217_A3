@@ -152,7 +152,6 @@ static void testBasics(void)
    ASSURE(! iSuccessful);
 
    uLength = SymTable_getLength(oSymTable);
-   printf("%d", (int)uLength);
    ASSURE(uLength == 4);
 
    

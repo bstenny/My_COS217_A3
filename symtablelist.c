@@ -74,7 +74,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
         return 0;
     }
 
-    if (SymTable_contains(oSymTable, pcKey) == 1){
+    if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;
     }
 
@@ -120,10 +120,10 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
-        psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             return 1;
         }
+        psNewNode = psNewNode->psNextNode;
     }
     return 0;
 }
