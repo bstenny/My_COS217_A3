@@ -184,7 +184,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
      */
     while (psNewNode->psNextNode) {
         if (!strcmp(psNewNode->pvKey, pcKey)) {
-            node = psNewNode->psNextNode;
+            node = psNewNode;
             value = node->pvValue;
             psNewNode->psNextNode = node->psNextNode;
             free(node->pvKey);
