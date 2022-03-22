@@ -73,11 +73,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     if (psNewNode == NULL) {
         return 0;
     }
-
+    
     if (SymTable_contains(oSymTable, pcKey) == 1){
         return 0;
     }
-    
+
 
     psNewNode->pvKey = pcKey;
     psNewNode->pvValue = pvValue;
@@ -93,7 +93,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
-        return 0;
+        return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
     while(psNewNode->psNextNode) {
@@ -117,10 +117,10 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
-        psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             return 1;
         }
+        psNewNode = psNewNode->psNextNode;
     }
     return 0;
 }
@@ -131,7 +131,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
-        return 0;
+        return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
@@ -151,7 +151,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
-        return 0;
+        return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
@@ -177,7 +177,7 @@ void SymTable_map(SymTable_T oSymTable,
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
-        return 0;
+        return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
