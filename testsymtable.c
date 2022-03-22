@@ -444,6 +444,7 @@ static void testEmptyTable(void)
    printf("Testing an empty SymTable object.\n");
    printf("No output should appear here:\n");
    fflush(stdout);
+   printf("TESTING START");
 
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
