@@ -486,28 +486,25 @@ static void testEmptyKey(void)
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
 
-   iSuccessful = SymTable_put(oSymTable, "", acShortstop);
+   iSuccessful = SymTable_put(oSymTable, "abd", acShortstop);
    ASSURE(iSuccessful);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 1);
 
-   iFound = SymTable_contains(oSymTable, "");
+   iFound = SymTable_contains(oSymTable, "abd");
    ASSURE(iFound);
 
-   pcValue = (char*)SymTable_get(oSymTable, "");
+   pcValue = (char*)SymTable_get(oSymTable, "abd");
    ASSURE(pcValue == acShortstop);
 
    printf("An empty name and a position should appear here:\n");
    fflush(stdout);
    SymTable_map(oSymTable, printBinding, "%s\t%s\n");
 
-    printf("Test 1\n");
-    fflush(stdout);
-   pcValue = (char*)SymTable_remove(oSymTable, "");
+   pcValue = (char*)SymTable_remove(oSymTable, "abd");
    ASSURE(pcValue == acShortstop);
-    printf("TEst 2\n");
-    fflush(stdout);
+
    SymTable_free(oSymTable);
 }
 
