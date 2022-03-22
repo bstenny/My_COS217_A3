@@ -115,6 +115,9 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     if (psNewNode == NULL) {
         return 0;
     }
+    if (oSymTable->numNodes == 0) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     printf("Test 1");
     while (psNewNode->psNextNode) {
