@@ -444,28 +444,26 @@ static void testEmptyTable(void)
    printf("Testing an empty SymTable object.\n");
    printf("No output should appear here:\n");
    fflush(stdout);
-   printf("TESTING START");
 
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
-    printf("Test 1");
+
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 0);
-    printf("Test 2");
+
    iFound = SymTable_contains(oSymTable, "Jeter");
    ASSURE(! iFound);
-    printf("Test 3");
+
    pcValue = (char*)SymTable_get(oSymTable, "Jeter");
    ASSURE(pcValue == NULL);
 
-   printf("Test 4");
    pcValue = (char*)SymTable_remove(oSymTable, "Jeter");
    ASSURE(pcValue == NULL);
-    printf("Test 5");
+
    SymTable_map(oSymTable, printBinding, "%s\t%s\n");
-    printf("Test 6");
+
    SymTable_free(oSymTable);
-    printf("Test 7");
+
 }
 
 /*--------------------------------------------------------------------*/
