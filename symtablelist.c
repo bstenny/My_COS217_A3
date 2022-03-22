@@ -140,6 +140,9 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
         return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
+    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+        return (void *) psNewNode->pvValue;
+    }
     while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
