@@ -36,7 +36,6 @@ SymTable_T SymTable_new(void)
         return NULL;
     }
     oSymTable->psFirstNode = NULL;
-    oSymTable->psFirstNode->pvKey = NULL;
     oSymTable->numNodes = 0;
     return oSymTable;
 }
