@@ -121,6 +121,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
         if (!strcmp(psNewNode->pvKey, pcKey)) {
+            fprintf(pcKey);
             return 1;
         }
         psNewNode = psNewNode->psNextNode;
