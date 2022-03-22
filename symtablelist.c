@@ -120,10 +120,10 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
+        psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             return 1;
         }
-        psNewNode = psNewNode->psNextNode;
     }
     return 0;
 }
@@ -154,6 +154,9 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
+        return NULL;
+    }
+    if (oSymTable->numNodes == 0) {
         return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
