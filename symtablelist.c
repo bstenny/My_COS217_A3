@@ -141,6 +141,9 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     if (psNewNode == NULL) {
         return NULL;
     }
+    if (oSymTable->numNodes == 0) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
         return (void *) psNewNode->pvValue;
