@@ -73,11 +73,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     if (psNewNode == NULL) {
         return 0;
     }
-    while(psNewNode->psNextNode) {
-        psNewNode = psNewNode->psNextNode;
-        if (strcmp(psNewNode->pvKey, pcKey)) {
-            return 0;
-        }
+    if (SymTable_contains(oSymTable, pcKey) == 1){
+        return 0;
     }
 
     psNewNode->pvKey = pcKey;
