@@ -80,7 +80,8 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 
 
     psNewNode->pvKey = pcKey;
-    psNewNode->pvValue = pvValue;
+    strcpy((char*) psNewNode->pvValue, pvValue);
+    /* psNewNode->pvValue = pvValue; */
     psNewNode->psNextNode = oSymTable->psFirstNode;
     oSymTable->psFirstNode = psNewNode;
     oSymTable->numNodes++;
