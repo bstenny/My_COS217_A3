@@ -120,12 +120,15 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
         return 0;
     }
     psNewNode = oSymTable->psFirstNode;
+    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+        return 1;
+    }
     while (psNewNode->psNextNode) {
+        psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             printf("Found key");
             return 1;
         }
-        psNewNode = psNewNode->psNextNode;
     }
     return 0;
 }
