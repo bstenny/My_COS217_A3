@@ -91,6 +91,10 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
                        const void *pvValue) {
     struct symTableNode *psNewNode;
     assert(oSymTable != NULL);
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+    if (psNewNode == NULL) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     while(psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
@@ -107,6 +111,10 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
 
     struct symTableNode *psNewNode;
     assert(oSymTable != NULL);
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+    if (psNewNode == NULL) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
@@ -121,6 +129,10 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
 
     struct symTableNode *psNewNode;
     assert(oSymTable != NULL);
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+    if (psNewNode == NULL) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
@@ -137,6 +149,10 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     struct symTableNode *node;
     void *value;
     assert(oSymTable != NULL);
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+    if (psNewNode == NULL) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
         if (!strcmp(psNewNode->psNextNode->pvKey, pcKey)) {
@@ -159,6 +175,10 @@ void SymTable_map(SymTable_T oSymTable,
 
     struct symTableNode *psNewNode;
     assert(oSymTable != NULL);
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+    if (psNewNode == NULL) {
+        return 0;
+    }
     psNewNode = oSymTable->psFirstNode;
     while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
