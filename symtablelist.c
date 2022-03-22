@@ -67,6 +67,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
     struct symTableNode *psNewNode;
     char* tempKey;
+    tempKey = (char *)malloc(strlen(pcKey));
 
     assert(oSymTable != NULL);
 
