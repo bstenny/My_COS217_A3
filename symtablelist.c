@@ -75,6 +75,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
         return 0;
     }
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
@@ -163,7 +164,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     assert(pcKey != NULL);
 
     if (oSymTable->numNodes == 0) {
-        return 0;
+        return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
