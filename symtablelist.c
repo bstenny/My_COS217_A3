@@ -65,6 +65,7 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
     return oSymTable->numNodes;
 }
 
+
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
     struct symTableNode *psNewNode;

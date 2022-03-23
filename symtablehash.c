@@ -99,6 +99,48 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
     return uHash % uBucketCount;
 }
 
+static void SymTable_rehash(SymTable_T oSymTable) {
+    int i;
+    int hash;
+    struct symTableNode *oldNode;
+    struct symTableNode *tempNode;
+    struct symTableNode *psNewNode;
+    struct symTableNode *node;
+    int oldBuckets;
+
+    oldNode = oSymTable->psFirstNode;
+    oldBuckets = oSymTable->buckets[0];
+    (oSymTable->buckets)++;
+
+    oSymTable->psFirstNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
+    if (oSymTable->psFirstNode == NULL) {
+        oSymTable->psFirstNode = oldNode;
+        (oSymTable->buckets)--;
+        return;
+    }
+    for (i = 0; i < oSymTable->buckets[0]; i++) {
+        oSymTable->psFirstNode[i].psNextNode = NULL;
+        oSymTable->psFirstNode[i].pvKey = NULL;
+    }
+
+    for (i = 0; i < oldBuckets; i++) {
+        node = oldNode[i].psNextNode;
+        while (node) {
+            tempNode = node->psNextNode;
+            hash = SymTable_hash(node->pvKey, oSymTable->buckets[0]);
+            psNewNode = &(oSymTable->psFirstNode[hash]);
+            while (psNewNode->psNextNode) {
+                psNewNode = psNewNode->psNextNode;
+            }
+            psNewNode->psNextNode = node;
+            node->psNextNode = NULL;
+            node = tempNode;
+        }
+
+    }
+    free(oldNode);
+}
+
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
     int hash;
@@ -117,7 +159,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     }
     /* maybe do something different here? Do I need another function? */
     if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
-        hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+        SymTable_rehash(oSymTable);
     }
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = &(oSymTable->psFirstNode[hash]);
