@@ -62,7 +62,7 @@ void SymTable_free(SymTable_T oSymTable)
 
 size_t SymTable_getLength(SymTable_T oSymTable) {
     assert(oSymTable != NULL);
-    return oSymTable->numNodes;
+    return (size_t)oSymTable->numNodes;
 }
 
 
@@ -144,12 +144,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     if(strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return 1;
     }
-    /*while (psNewNode->psNextNode) {
-        psNewNode = psNewNode->psNextNode;
-        if (strcmp(psNewNode->pvKey, pcKey) == 0) {
-            return 1;
-        }
-    }*/
+
     while(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
         psNewNode = psNewNode->psNextNode;
     }
@@ -159,7 +154,6 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     else {
         return 1;
     }
-    return 0;
 }
 
 void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
