@@ -173,9 +173,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     printf("TEst put 5\n");
     fflush(stdout);
 
+    /*
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;
     }
+     */
 
     printf("TEst put 6\n");
     fflush(stdout);
