@@ -233,21 +233,21 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     struct symTableNode *psNewNode;
 
     assert(oSymTable != NULL);
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    
-    if (psNewNode == NULL) {
-        return 0;
-    }
+    assert(pcKey != NULL);
+
     if (oSymTable->numNodes == 0) {
         return 0;
     }
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = &(oSymTable->psFirstNode[hash]);
+    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+        return 1;
+    }
     while (psNewNode->psNextNode) {
+        psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             return 1;
         }
-        psNewNode = psNewNode->psNextNode;
     }
     return 0;
 }
