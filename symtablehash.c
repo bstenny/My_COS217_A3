@@ -43,10 +43,14 @@ SymTable_T SymTable_new(void)
     }
     oSymTable->buckets = bucketCounts;
     oSymTable->psFirstNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
+    printf("TEst 1");
+    fflush(stdout);
     if (oSymTable->psFirstNode == NULL) {
         return NULL;
     }
     for (i = 0; i < oSymTable->buckets[0]; i++) {
+        printf("TEst 2");
+        fflush(stdout);
         oSymTable->psFirstNode[i].psNextNode = NULL;
         oSymTable->psFirstNode[i].pvKey = NULL;
     }
