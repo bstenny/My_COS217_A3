@@ -157,13 +157,9 @@ static void testBasics(void)
 
    iFound = SymTable_contains(oSymTable, acJeter);
    ASSURE(iFound);
-   printf("Test 1\n");
-    fflush(stdout);
 
    iFound = SymTable_contains(oSymTable, acMantle);
    ASSURE(iFound);
-    printf("Test 2\n");
-    fflush(stdout);
 
    iFound = SymTable_contains(oSymTable, acGehrig);
    ASSURE(iFound);
