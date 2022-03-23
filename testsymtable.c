@@ -120,12 +120,18 @@ static void testBasics(void)
    /* Test SymTable_put() and SymTable_getLength(). */
    iSuccessful = SymTable_put(oSymTable, acJeter, acShortstop);
    ASSURE(iSuccessful);
+    printf("Test 3\n");
+    fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 1);
+    printf("Test 4\n");
+    fflush(stdout);
 
    iSuccessful = SymTable_put(oSymTable, acMantle, acCenterField);
    ASSURE(iSuccessful);
+    printf("Test 5\n");
+    fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
