@@ -224,6 +224,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         oSymTable->psFirstNode = psNewNode->psNextNode;
         free(psNewNode->pvKey);
         free(psNewNode);
+        oSymTable->numNodes--;
         return value;
     }
     prevNode = psNewNode;
@@ -240,6 +241,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         prevNode->psNextNode = psNewNode->psNextNode;
         free(psNewNode->pvKey);
         free(psNewNode);
+        oSymTable->numNodes--;
         return value;
     }
 
