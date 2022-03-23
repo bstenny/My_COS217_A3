@@ -150,28 +150,41 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     if (tempKey == NULL) {
         return 0;
     }
-
+    printf("TEst put 1\n");
+    fflush(stdout);
     assert(oSymTable != NULL);
 
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
         return 0;
     }
+    printf("TEst put 2\n");
+    fflush(stdout);
     /* maybe do something different here? Do I need another function? */
     if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
         SymTable_rehash(oSymTable);
     }
+    printf("TEst put 3\n");
+    fflush(stdout);
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    printf("TEst put 4\n");
+    fflush(stdout);
     psNewNode = &(oSymTable->psFirstNode[hash]);
+    printf("TEst put 5\n");
+    fflush(stdout);
 
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;
     }
 
+    printf("TEst put 6\n");
+    fflush(stdout);
     psNewNode->psNextNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode->psNextNode == NULL) {
         return 0;
     }
+    printf("TEst put 7\n");
+    fflush(stdout);
 
     strcpy(tempKey, pcKey);
     psNewNode->pvKey = tempKey;
