@@ -234,25 +234,16 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
 
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    printf("TEst 1\n");
-    fflush(stdout);
+    
     if (psNewNode == NULL) {
         return 0;
     }
     if (oSymTable->numNodes == 0) {
         return 0;
     }
-    printf("TEst 2\n");
-    fflush(stdout);
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
-    printf("TEst 3\n");
-    fflush(stdout);
     psNewNode = &(oSymTable->psFirstNode[hash]);
-    printf("TEst 4\n");
-    fflush(stdout);
     while (psNewNode->psNextNode) {
-        printf("TEst 5\n");
-        fflush(stdout);
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             return 1;
         }
