@@ -42,7 +42,7 @@ SymTable_T SymTable_new(void)
         return NULL;
     }
     printf("TEst 1\n");
-    psNewNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
+    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
         return 0;
     }
