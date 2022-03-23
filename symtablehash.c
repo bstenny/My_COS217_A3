@@ -42,11 +42,11 @@ SymTable_T SymTable_new(void)
         return NULL;
     }
     oSymTable->buckets = bucketCounts;
-    oSymTable->psFirstNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
+    oSymTable->psFirstNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (oSymTable->psFirstNode == NULL) {
         return NULL;
     }
-    for (i = 0; i < oSymTable->buckets[0]; ++i) {
+    for (i = 0; i < oSymTable->buckets[0]; i++) {
         oSymTable->psFirstNode[i].psNextNode = NULL;
         oSymTable->psFirstNode[i].pvKey = NULL;
     }
