@@ -195,7 +195,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         }
     }
     if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
-        nextNode = psNewNode->psNextNode;
+        nextNode = psNewNode;
         value = nextNode->pvValue;
         psNewNode->psNextNode = nextNode->psNextNode;
         free(nextNode->pvKey);
