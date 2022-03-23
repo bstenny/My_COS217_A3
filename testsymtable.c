@@ -639,17 +639,29 @@ static void testLongKey(void)
 
    pcValue = (char*)SymTable_get(oSymTable, acKeyA);
    ASSURE(pcValue == acShortstop);
+    printf("Test 9\n");
+    fflush(stdout);
    pcValue = (char*)SymTable_get(oSymTable, acKeyB);
    ASSURE(pcValue == acShortstop);
+    printf("Test 10\n");
+    fflush(stdout);
 
    pcValue = (char*)SymTable_remove(oSymTable, acKeyB);
    ASSURE(pcValue == acShortstop);
+    printf("Test 11\n");
+    fflush(stdout);
    pcValue = (char*)SymTable_remove(oSymTable, acKeyB);
    ASSURE(pcValue == NULL);
+    printf("Test 12\n");
+    fflush(stdout);
    pcValue = (char*)SymTable_remove(oSymTable, acKeyA);
    ASSURE(pcValue == acShortstop);
+    printf("Test 13\n");
+    fflush(stdout);
 
    SymTable_free(oSymTable);
+    printf("Test 14\n");
+    fflush(stdout);
 }
 
 /*--------------------------------------------------------------------*/
