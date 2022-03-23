@@ -110,44 +110,27 @@ static void testBasics(void)
    fflush(stdout);
 
    /* Test SymTable_new(). */
-    printf("TEst 1\n");
-    fflush(stdout);
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
 
    /* Test SymTable_put() and SymTable_getLength(). */
-    printf("TEst 2\n");
-    fflush(stdout);
-
    iSuccessful = SymTable_put(oSymTable, acJeter, acShortstop);
    ASSURE(iSuccessful);
-    printf("TEst 3\n");
-    fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 1);
-    printf("TEst 4\n");
-    fflush(stdout);
 
    iSuccessful = SymTable_put(oSymTable, acMantle, acCenterField);
    ASSURE(iSuccessful);
-    printf("TEst 5\n");
-    fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
-    printf("TEst 6\n");
-    fflush(stdout);
 
    iSuccessful = SymTable_put(oSymTable, acGehrig, acFirstBase);
    ASSURE(iSuccessful);
-    printf("TEst 7\n");
-    fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 3);
-    printf("TEst 8\n");
-    fflush(stdout);
 
    iSuccessful = SymTable_put(oSymTable, acRuth, acRightField);
    ASSURE(iSuccessful);
