@@ -602,23 +602,40 @@ static void testLongKey(void)
       acKeyB[i] = 'b';
    acKeyB[KEY_SIZE - 1] = '\0';
 
+    printf("Test 1\n");
+    fflush(stdout);
+
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
+    printf("Test 2\n");
+    fflush(stdout);
 
    iSuccessful = SymTable_put(oSymTable, acKeyA, acShortstop);
    ASSURE(iSuccessful);
+    printf("Test 3\n");
+    fflush(stdout);
    iSuccessful = SymTable_put(oSymTable, acKeyB, acShortstop);
    ASSURE(iSuccessful);
+    printf("Test 4\n");
+    fflush(stdout);
    iSuccessful = SymTable_put(oSymTable, acKeyB, acShortstop);
    ASSURE(! iSuccessful);
+    printf("Test 5\n");
+    fflush(stdout);
 
    uLength = SymTable_getLength(oSymTable);
    ASSURE(uLength == 2);
+    printf("Test 6\n");
+    fflush(stdout);
 
    iFound = SymTable_contains(oSymTable, acKeyA);
    ASSURE(iFound);
+    printf("Test 7\n");
+    fflush(stdout);
    iFound = SymTable_contains(oSymTable, acKeyB);
    ASSURE(iFound);
+    printf("Test 8\n");
+    fflush(stdout);
 
    pcValue = (char*)SymTable_get(oSymTable, acKeyA);
    ASSURE(pcValue == acShortstop);
