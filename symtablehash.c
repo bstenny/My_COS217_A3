@@ -197,7 +197,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     if (oSymTable->numNodes == 0) {
         return 0;
     }
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0])
+    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = &(oSymTable->psFirstNode[hash]);
     if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
         return 1;
@@ -266,7 +266,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
             nextNode = psNewNode->psNextNode;
             value = nextNode->pvValue;
             oSymTable->numNodes--;
-            return val;
+            return value;
         }
     }
     /*
@@ -336,7 +336,7 @@ void SymTable_map(SymTable_T oSymTable,
     }
     pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra); /* edge case */
     for(i = 0; i < oSymTable->buckets[0]; i++) {
-        psNewNode = &(oSymTable->psFirstNode[hash]);
+        psNewNode = &(oSymTable->psFirstNode[i]);
         while (psNewNode->psNextNode) {
             psNewNode = psNewNode->psNextNode;
             pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra);
