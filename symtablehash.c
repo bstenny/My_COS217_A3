@@ -172,23 +172,14 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     if (psNewNode->psNextNode == NULL) {
         return 0;
     }
-    while (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
-        psNewNode = psNewNode->psNextNode;
-    }
-    if (psNewNode != NULL) {
-        return 0;
-    }
-    else {
-        strcpy(tempKey, pcKey);
-        psNewNode->pvKey = tempKey;
-        psNewNode->pvValue = pvValue;
-        psNewNode->psNextNode = oSymTable->psFirstNode;
-        oSymTable->psFirstNode = psNewNode;
-        oSymTable->numNodes++;
-        return 1;
-    }
 
-
+    strcpy(tempKey, pcKey);
+    psNewNode->pvKey = tempKey;
+    psNewNode->pvValue = pvValue;
+    psNewNode->psNextNode = oSymTable->psFirstNode;
+    oSymTable->psFirstNode = psNewNode;
+    oSymTable->numNodes++;
+    return 1;
 }
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,

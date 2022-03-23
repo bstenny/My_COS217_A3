@@ -141,14 +141,23 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
         return 0;
     }
     psNewNode = oSymTable->psFirstNode;
-    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+    if(strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return 1;
     }
-    while (psNewNode->psNextNode) {
+    /*while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
-        if (!strcmp(psNewNode->pvKey, pcKey)) {
+        if (strcmp(psNewNode->pvKey, pcKey) == 0) {
             return 1;
         }
+    }*/
+    while(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
+        psNewNode = psNewNode->psNextNode;
+    }
+    if (psNewNode == NULL) {
+        return 0;
+    }
+    else {
+        return 1;
     }
     return 0;
 }
