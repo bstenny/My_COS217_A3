@@ -185,24 +185,17 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
 
     struct symTableNode *psNewNode;
-    struct symTableNode *nextNode;
+    struct symTableNode *prevNode;
     void *value;
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
     /* assert(oSymTable->psFirstNode != NULL); */
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (psNewNode == NULL) {
-        return NULL;
-    }
-    nextNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (nextNode == NULL) {
-        return NULL;
-    }
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
-    psNewNode = oSymTable->psFirstNode;
+    /*psNewNode = oSymTable->psFirstNode;
     if (oSymTable->numNodes == 1) {
-        if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+        if(!strcmp(psNewNode->pvKey, pcKey)) { *//* edge case *//*
             nextNode = psNewNode;
             value = psNewNode->pvValue;
             oSymTable->psFirstNode = NULL;
@@ -213,7 +206,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         }
     }
     while (psNewNode->psNextNode){
-        if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+        if (!strcmp(psNewNode->pvKey, pcKey)) { *//* edge case *//*
             nextNode = psNewNode->psNextNode;
             value = nextNode->pvValue;
             psNewNode->psNextNode = nextNode->psNextNode;
@@ -223,7 +216,66 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
             return value;
         }
         psNewNode = psNewNode->psNextNode;
+    }*/
+
+    psNewNode = oSymTable->psFirstNode;
+    if (psNewNode != NULL && strcmp(oSymTable->psFirstNode->pvKey, pcKey) == 0) {
+        value = psNewNode->pvValue;
+        oSymTable->psFirstNode = psNewNode->psNextNode;
+        free(psNewNode->pvKey);
+        free(psNewNode);
+        return value;
     }
+    prevNode = psNewNode;
+    psNewNode = psNewNode->psNextNode;
+    while (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
+        prevNode = psNewNode;
+        psNewNode = psNewNode->psNextNode;
+    }
+    if (psNewNode == NULL) {
+        return NULL;
+    }
+    else {
+        value = psNewNode->pvValue;
+        prevNode->psNextNode = psNewNode->psNextNode;
+        free(psNewNode->pvKey);
+        free(psNewNode);
+        return value;
+    }
+
+
+    /*
+     * newnode = symtable->first
+     * if newnode not null and strcmp(osymtable->first->key, pcKey) == 0:
+     *      remove that node:
+     *      storing info from symtable first node
+     *      osymtable->first = noewnode->next
+     *
+     *
+     * prev = newnode
+     * newnode = newnode->next
+     * while newnode is not NULL and while strcmp(newnode->key, pcKey) != 0 {
+     *  prev = newnode
+     *  newnode = newnode->next
+     *
+     * }
+     *
+     * if newnode is null:
+     *    return null (we didnt find te key)
+     *
+     * else:
+     *     store info from newnode
+     *     prev->next = newnode->next
+     *     free newnode
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     */
     /*
     if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
     /*
@@ -248,7 +300,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         psNewNode = psNewNode->psNextNode;
     }
     */
-    return NULL;
 }
 
 void SymTable_map(SymTable_T oSymTable,
