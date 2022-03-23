@@ -92,22 +92,35 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
                        const void *pvValue) {
     struct symTableNode *psNewNode;
+    void *val;
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
         return NULL;
     }
     psNewNode = oSymTable->psFirstNode;
+    if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+        if (pvValue == NULL) {
+            val = psNewNode->pvValue;
+            psNewNode->pvValue = NULL;
+            return val;
+        }
+        else {
+            val = psNewNode->pvValue;
+            psNewNode->pvValue = (void *) pvValue;
+            return val;
+        }
+    }
     while(psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             if (pvValue == NULL) {
-                void *val = psNewNode->pvValue;
+                val = psNewNode->pvValue;
                 psNewNode->pvValue = NULL;
                 return val;
             }
             else {
-                void *val = psNewNode->pvValue;
+                val = psNewNode->pvValue;
                 psNewNode->pvValue = (void *) pvValue;
                 return val;
             }
