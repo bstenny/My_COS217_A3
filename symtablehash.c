@@ -251,17 +251,12 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     psNewNode = &(oSymTable->psFirstNode[hash]);
     printf("TEst 4\n");
     fflush(stdout);
-    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
-        return 1;
-    }
-    printf("TEst 5\n");
-    fflush(stdout);
     while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
         if (!strcmp(psNewNode->pvKey, pcKey)) {
             return 1;
         }
-        printf("TEst 6\n");
+        printf("TEst 5\n");
         fflush(stdout);
     }
     return 0;
