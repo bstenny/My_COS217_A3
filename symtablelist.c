@@ -195,6 +195,9 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
+    if (SymTable_contains(oSymTable, pcKey) == 0) {
+        return NULL;
+    }
     psNewNode = oSymTable->psFirstNode;
     if (oSymTable->numNodes == 1) {
         if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
