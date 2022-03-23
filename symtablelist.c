@@ -8,6 +8,8 @@
 #include "symtable.h"
 #include <string.h>
 
+
+
 struct symTableNode
 {
     /* The key. */
@@ -68,7 +70,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     struct symTableNode *psNewNode;
     char* tempKey;
     tempKey = (char *)malloc(strlen(pcKey));
-
+    if (tempKey == NULL) {
+        return 0;
+    }
     assert(oSymTable != NULL);
 
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
@@ -209,7 +213,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     }
     while (psNewNode->psNextNode){
         if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
-            nextNode = psNewNode;
+            nextNode = psNewNode->psNextNode;
             value = nextNode->pvValue;
             psNewNode->psNextNode = nextNode->psNextNode;
             free(nextNode->pvKey);
