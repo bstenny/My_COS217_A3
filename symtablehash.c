@@ -162,12 +162,11 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     }
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = &(oSymTable->psFirstNode[hash]);
-
-    /*
+    
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;
     }
-     */
+
 
     psNewNode->psNextNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode->psNextNode == NULL) {
