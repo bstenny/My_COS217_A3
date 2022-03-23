@@ -99,10 +99,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     struct symTableNode *psNewNode;
     void *val;
     assert(oSymTable != NULL);
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (psNewNode == NULL) {
-        return NULL;
-    }
+    assert(pcKey != NULL);
     psNewNode = oSymTable->psFirstNode;
     if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
         if (pvValue == NULL) {
@@ -173,11 +170,6 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     }
     while (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
         psNewNode = psNewNode->psNextNode;
-        /*
-        if (strcmp(psNewNode->pvKey, pcKey) == 0) {
-            return (void *) psNewNode->pvValue;
-        }
-         */
     }
     if (psNewNode == NULL) {
         return NULL;
