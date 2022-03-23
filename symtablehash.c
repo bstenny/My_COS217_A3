@@ -233,12 +233,14 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     struct symTableNode *psNewNode;
 
     assert(oSymTable != NULL);
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+   /*  psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode)); */
     printf("TEst 1\n");
     fflush(stdout);
+    /*
     if (psNewNode == NULL) {
         return 0;
     }
+     */
     if (oSymTable->numNodes == 0) {
         return 0;
     }
