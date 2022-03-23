@@ -45,7 +45,7 @@ SymTable_T SymTable_new(void)
     if (psNewNode == NULL) {
         return 0;
     }
-    for (i = 0; i < oSymTable->buckets[0]; i ++) {
+    for (i = 0; i < oSymTable->buckets[0]; ++i) {
         printf("TEst 1\n");
         oSymTable->psFirstNode[i].psNextNode = NULL;
         printf("TEst 2\n");
