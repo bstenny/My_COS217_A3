@@ -36,13 +36,13 @@ SymTable_T SymTable_new(void)
 {
     int i;
     SymTable_T oSymTable;
-    struct symTableNode *psNewNode;
+
     oSymTable = (SymTable_T)malloc(sizeof(struct symTable));
     if (oSymTable == NULL) {
         return NULL;
     }
     oSymTable->buckets = bucketCounts;
-    oSymTable->psFirstNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+    oSymTable->psFirstNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
     if (oSymTable->psFirstNode == NULL) {
         return NULL;
     }

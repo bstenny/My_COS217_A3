@@ -108,10 +108,14 @@ static void testBasics(void)
    printf("Testing the most basic SymTable functions.\n");
    printf("No output should appear here:\n");
    fflush(stdout);
+    printf("Test 1\n");
+    fflush(stdout);
 
    /* Test SymTable_new(). */
    oSymTable = SymTable_new();
    ASSURE(oSymTable != NULL);
+    printf("Test 2\n");
+    fflush(stdout);
 
    /* Test SymTable_put() and SymTable_getLength(). */
    iSuccessful = SymTable_put(oSymTable, acJeter, acShortstop);
