@@ -195,9 +195,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
-    if (SymTable_contains(oSymTable, pcKey) == 0) {
-        return NULL;
-    }
     psNewNode = oSymTable->psFirstNode;
     if (oSymTable->numNodes == 1) {
         if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
@@ -210,7 +207,21 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
             return value;
         }
     }
+    while (psNewNode->psNextNode){
+        if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+            nextNode = psNewNode;
+            value = nextNode->pvValue;
+            psNewNode->psNextNode = nextNode->psNextNode;
+            free(nextNode->pvKey);
+            free(nextNode);
+            oSymTable->numNodes--;
+            return value;
+        }
+        psNewNode = psNewNode->psNextNode;
+    }
+    /*
     if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+    /*
         nextNode = psNewNode;
         value = nextNode->pvValue;
         psNewNode->psNextNode = nextNode->psNextNode;
@@ -231,6 +242,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         }
         psNewNode = psNewNode->psNextNode;
     }
+    */
     return NULL;
 }
 
