@@ -30,7 +30,7 @@ struct symTable
     struct symTableNode **psFirstNode;
     /* number of nodes in the symbol table */
     int numNodes;
-
+    /* pointer to the buckets */
     int *buckets;
 };
 
