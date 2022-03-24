@@ -359,6 +359,9 @@ void SymTable_map(SymTable_T oSymTable,
     }
     for(i = 0; i < oSymTable->buckets[0]; i++) {
         psNewNode = oSymTable->psFirstNode[i];
+        if (psNewNode == NULL) {
+            continue;
+        }
         pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra); /* edge case */
         while (psNewNode->psNextNode) {
             psNewNode = psNewNode->psNextNode;
