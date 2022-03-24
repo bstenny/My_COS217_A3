@@ -9,7 +9,7 @@
 #include <string.h>
 
 
-
+/* node for this symbol table */
 struct symTableNode
 {
     /* The key. */
@@ -22,6 +22,7 @@ struct symTableNode
     struct symTableNode *psNextNode;
 };
 
+/* symbol table structure */
 struct symTable
 {
     /* The address of the first symTableNode. */
@@ -77,11 +78,6 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (psNewNode == NULL) {
-        return 0;
-    }
-
     if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;
     }
@@ -102,7 +98,8 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
     psNewNode = oSymTable->psFirstNode;
-    if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+
+    if (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* first node case */
         if (pvValue == NULL) {
             value = (void*)(psNewNode->pvValue);
             psNewNode->pvValue = NULL;
@@ -114,22 +111,24 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
             return value;
         }
     }
-    while(psNewNode->psNextNode) {
+    while(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
         psNewNode = psNewNode->psNextNode;
-        if (!strcmp(psNewNode->pvKey, pcKey)) {
-            if (pvValue == NULL) {
-                value = (void*)(psNewNode->pvValue);
-                psNewNode->pvValue = NULL;
-                return value;
-            }
-            else {
-                value = (void*)(psNewNode->pvValue);
-                psNewNode->pvValue = (void *) pvValue;
-                return value;
-            }
+    }
+    if (psNewNode == NULL) { /*we did not find it */
+        return NULL;
+    }
+    else { /* we found it */
+        if (pvValue == NULL) {
+            value = (void*)(psNewNode->pvValue);
+            psNewNode->pvValue = NULL;
+            return value;
+        }
+        else {
+            value = (void*)(psNewNode->pvValue);
+            psNewNode->pvValue = (void *) pvValue;
+            return value;
         }
     }
-    return NULL;
 }
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
@@ -149,10 +148,10 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     while(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
         psNewNode = psNewNode->psNextNode;
     }
-    if (psNewNode == NULL) {
+    if (psNewNode == NULL) { /* it does not contain */
         return 0;
     }
-    else {
+    else { /* it contains */
         return 1;
     }
 }
@@ -173,10 +172,10 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     while (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
         psNewNode = psNewNode->psNextNode;
     }
-    if (psNewNode == NULL) {
+    if (psNewNode == NULL) { /* it was not in the symtable */
         return NULL;
     }
-    else {
+    else { /* we found it */
         return (void *) psNewNode->pvValue;
     }
 }
@@ -188,7 +187,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     void *value;
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
-    /* assert(oSymTable->psFirstNode != NULL); */
+
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
@@ -197,7 +196,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     if (psNewNode == NULL) {
         return NULL;
     }
-    if (strcmp(psNewNode->pvKey, pcKey) == 0) {
+    if (strcmp(psNewNode->pvKey, pcKey) == 0) { /* first node case */
         value = (void*)(psNewNode->pvValue);
         oSymTable->psFirstNode = psNewNode->psNextNode;
         free((void*)(psNewNode->pvKey));
@@ -211,10 +210,10 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         prevNode = psNewNode;
         psNewNode = psNewNode->psNextNode;
     }
-    if (psNewNode == NULL) {
+    if (psNewNode == NULL) { /* we did not find the node with pcKey */
         return NULL;
     }
-    else {
+    else { /* we found it */
         value = (void*)(psNewNode->pvValue);
         prevNode->psNextNode = psNewNode->psNextNode;
         free((void*)(psNewNode->pvKey));
@@ -222,40 +221,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         oSymTable->numNodes--;
         return value;
     }
-
-
-    /*
-     * newnode = symtable->first
-     * if newnode not null and strcmp(osymtable->first->key, pcKey) == 0:
-     *      remove that node:
-     *      storing info from symtable first node
-     *      osymtable->first = noewnode->next
-     *
-     *
-     * prev = newnode
-     * newnode = newnode->next
-     * while newnode is not NULL and while strcmp(newnode->key, pcKey) != 0 {
-     *  prev = newnode
-     *  newnode = newnode->next
-     *
-     * }
-     *
-     * if newnode is null:
-     *    return null (we didnt find te key)
-     *
-     * else:
-     *     store info from newnode
-     *     prev->next = newnode->next
-     *     free newnode
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
 }
 
 void SymTable_map(SymTable_T oSymTable,

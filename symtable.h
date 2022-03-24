@@ -16,7 +16,7 @@ typedef struct symTable *SymTable_T;
 SymTable_T SymTable_new(void);
 
 /* frees a given symtable
- * takes a SymTable_T
+ * takes a SymTable_T oSymTable
  * no return (void)
  * */
 void SymTable_free(SymTable_T oSymTable);

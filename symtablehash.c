@@ -8,8 +8,10 @@
 #include "symtable.h"
 #include <string.h>
 
+/* bucket count array */
 static int bucketCounts[] = {509, 1021, 2039, 4093, 8191, 16381, 32749, 65521};
 
+/* node for symbol table */
 struct symTableNode
 {
     /* The key. */
@@ -22,6 +24,7 @@ struct symTableNode
     struct symTableNode *psNextNode;
 };
 
+/* symbol table structure */
 struct symTable
 {
     /* The address of the first symTableNode. */
@@ -84,7 +87,6 @@ size_t SymTable_getLength(SymTable_T oSymTable) {
 
 /* Return a hash code for pcKey that is between 0 and uBucketCount-1,
         inclusive. */
-
 static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 {
     const size_t HASH_MULTIPLIER = 65599;
@@ -100,7 +102,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 }
 
 /* need to work on this one. It feels a bit messy and i might be able to do it easier. Ask in office hours */
-/*static void SymTable_rehash(SymTable_T oSymTable) {
+static void SymTable_rehash(SymTable_T oSymTable) {
     int i;
     int hash;
     struct symTableNode *oldNode;
@@ -141,7 +143,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 
     }
     free(oldNode);
-}*/
+}
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
@@ -155,16 +157,13 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     }
     assert(oSymTable != NULL);
 
-    /* maybe do something different here? Do I need another function? */
-/*    if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
+    /* maybe do something different here? */
+    if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
         SymTable_rehash(oSymTable);
-    }*/
+    }
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = oSymTable->psFirstNode[hash];
 
-    /*if (SymTable_contains(oSymTable, pcKey) == 1) {
-        return 0;
-    }*/
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return 0;
     }
@@ -247,12 +246,6 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     if (oSymTable->numNodes == 0) {
         return 0;
     }
-    /*hash the key
-     * walk through the list that correpsonds to k
-     *
-     *
-     *
-     */
 
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = oSymTable->psFirstNode[hash];
