@@ -101,49 +101,15 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
     return uHash % uBucketCount;
 }
 
-/* need to work on this one. It feels a bit messy and i might be able to do it easier. Ask in office hours */
-static void SymTable_rehash(SymTable_T oSymTable) {
+
+/*static void SymTable_rehash(SymTable_T oSymTable) {
     int i;
     int hash;
     struct symTableNode *oldNode;
     struct symTableNode *tempNode;
-    struct symTableNode *psNewNode;
-    struct symTableNode *node;
-    int oldBuckets;
 
-    oldNode = oSymTable->psFirstNode;
-    oldBuckets = oSymTable->buckets[0];
-    (oSymTable->buckets)++;
-
-    oSymTable->psFirstNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
-    if (oSymTable->psFirstNode == NULL) {
-        oSymTable->psFirstNode = oldNode;
-        (oSymTable->buckets)--;
-        return;
-    }
-
-    for (i = 0; i < oSymTable->buckets[0]; i++) {
-        oSymTable->psFirstNode[i].psNextNode = NULL;
-        oSymTable->psFirstNode[i].pvKey = NULL;
-    }
-
-    for (i = 0; i < oldBuckets; i++) {
-        node = oldNode[i].psNextNode;
-        while (node) {
-            tempNode = node->psNextNode;
-            hash = SymTable_hash(node->pvKey, oSymTable->buckets[0]);
-            psNewNode = &(oSymTable->psFirstNode[hash]);
-            while (psNewNode->psNextNode) {
-                psNewNode = psNewNode->psNextNode;
-            }
-            psNewNode->psNextNode = node;
-            node->psNextNode = NULL;
-            node = tempNode;
-        }
-
-    }
-    free(oldNode);
-}
+    *//* I don't have very good ideas with this. I think I ran out of time to really give this a good shot. *//*
+}*/
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
@@ -158,9 +124,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     assert(oSymTable != NULL);
 
     /* maybe do something different here? */
-    if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
+    /*if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
         SymTable_rehash(oSymTable);
-    }
+    }*/
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = oSymTable->psFirstNode[hash];
 
