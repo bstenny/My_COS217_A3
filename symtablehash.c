@@ -4,7 +4,6 @@
 
 #include <assert.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "symtable.h"
 #include <string.h>
 
@@ -30,7 +29,7 @@ struct symTable
     /* The address of the first symTableNode. */
     struct symTableNode **psFirstNode;
     /* number of nodes in the symbol table */
-    int numNodes;
+    size_t numNodes;
 
     int *buckets;
 };
@@ -254,7 +253,6 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     else {
         return (void *) psNewNode->pvValue;
     }
-    return NULL;
 }
 
 void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
@@ -265,7 +263,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     void *value;
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
-    /* assert(oSymTable->psFirstNode != NULL); */
 
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     if (oSymTable->numNodes == 0) {

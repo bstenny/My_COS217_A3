@@ -81,13 +81,10 @@ There are reasons why you might want to keep it NULL and the test code
 even sets it as NULL sometimes.
 
 symtablelist.c: line 234: medium priority:
-Do you want to validate 'pfApply' through an assert?
-
-symtablelist.c: line 234: medium priority:
 Do you want to validate 'pvExtra' through an assert?
-
-
-
+I do not want to validate pvExtra is not NULL. There are reasons why
+the client might want it to be NULL, especially if it doesn't serve
+a purpose and we do not want to confuse anyone who reads our code.
 
 
 ------------------------------------------------------------------------
