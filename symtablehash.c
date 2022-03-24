@@ -25,7 +25,7 @@ struct symTableNode
 struct symTable
 {
     /* The address of the first symTableNode. */
-    struct symTableNode *psFirstNode;
+    struct symTableNode **psFirstNode;
     /* number of nodes in the symbol table */
     int numNodes;
 
@@ -42,13 +42,13 @@ SymTable_T SymTable_new(void)
         return NULL;
     }
     oSymTable->buckets = bucketCounts;
-    oSymTable->psFirstNode = (struct symTableNode*)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode));
+    oSymTable->psFirstNode = (struct symTableNode**)malloc(oSymTable->buckets[0]*sizeof(struct symTableNode*));
     if (oSymTable->psFirstNode == NULL) {
+        free(oSymTable);
         return NULL;
     }
     for (i = 0; i < oSymTable->buckets[0]; i++) {
-        oSymTable->psFirstNode[i].psNextNode = NULL;
-        oSymTable->psFirstNode[i].pvKey = NULL;
+        oSymTable->psFirstNode[i] = NULL;
     }
     oSymTable->numNodes = 0;
     return oSymTable;
@@ -99,7 +99,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
     return uHash % uBucketCount;
 }
 
-/* need to work on this one. It feels cobbled together. Ask in office hours */
+/* need to work on this one. It feels a bit messy and i might be able to do it easier. Ask in office hours */
 static void SymTable_rehash(SymTable_T oSymTable) {
     int i;
     int hash;
@@ -147,6 +147,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
     int hash;
     struct symTableNode *psNewNode;
+    struct symTableNode *tempNode;
     char* tempKey;
     tempKey = (char*)malloc(strlen(pcKey) + 1);
     if (tempKey == NULL) {
@@ -154,79 +155,85 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     }
     assert(oSymTable != NULL);
 
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (psNewNode == NULL) {
-        return 0;
-    }
     /* maybe do something different here? Do I need another function? */
     if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
         SymTable_rehash(oSymTable);
     }
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
-    psNewNode = &(oSymTable->psFirstNode[hash]);
+    psNewNode = oSymTable->psFirstNode[hash];
 
     /*if (SymTable_contains(oSymTable, pcKey) == 1) {
         return 0;
     }*/
-
-
-    psNewNode->psNextNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (psNewNode->psNextNode == NULL) {
+    if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return 0;
     }
+    while (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
+        psNewNode = psNewNode->psNextNode;
+    }
+    if (psNewNode == NULL) {
+        tempNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+        if (tempNode == NULL) {
+            free(tempKey);
+            return 0;
+        }
 
-    strcpy(tempKey, pcKey);
-    psNewNode->pvKey = tempKey;
-    psNewNode->pvValue = pvValue;
-    psNewNode->psNextNode = oSymTable->psFirstNode;
-    oSymTable->psFirstNode = psNewNode;
-    oSymTable->numNodes++;
-    return 1;
+        strcpy(tempKey, pcKey);
+
+        tempNode->pvKey = tempKey;
+        tempNode->pvValue = pvValue;
+        tempNode->psNextNode = oSymTable->psFirstNode[hash];
+        oSymTable->psFirstNode[hash] = tempNode;
+        oSymTable->numNodes++;
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }
 
 void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
                        const void *pvValue) {
     struct symTableNode *psNewNode;
-    void *val;
+    void *value;
     int hash;
     assert(oSymTable != NULL);
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
+
+
+    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    psNewNode = oSymTable->psFirstNode[hash];
+
+
+    if (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
+        if (pvValue == NULL) {
+            value = psNewNode->pvValue;
+            psNewNode->pvValue = NULL;
+            return value;
+        }
+        else {
+            value = psNewNode->pvValue;
+            psNewNode->pvValue = (void *) pvValue;
+            return value;
+        }
+    }
+    while(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
+        psNewNode = psNewNode->psNextNode;
+    }
     if (psNewNode == NULL) {
         return NULL;
     }
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
-    psNewNode = &(oSymTable->psFirstNode[hash]);
-
-    /*
-    if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */ /*
+    else {
         if (pvValue == NULL) {
-            val = psNewNode->pvValue;
+            value = psNewNode->pvValue;
             psNewNode->pvValue = NULL;
-            return val;
+            return value;
         }
         else {
-            val = psNewNode->pvValue;
+            value = psNewNode->pvValue;
             psNewNode->pvValue = (void *) pvValue;
-            return val;
+            return value;
         }
     }
-    */
-    while(psNewNode->psNextNode) {
-        psNewNode = psNewNode->psNextNode;
-        if (!strcmp(psNewNode->pvKey, pcKey)) {
-            if (pvValue == NULL) {
-                val = psNewNode->pvValue;
-                psNewNode->pvValue = NULL;
-                return val;
-            }
-            else {
-                val = psNewNode->pvValue;
-                psNewNode->pvValue = (void *) pvValue;
-                return val;
-            }
-        }
-    }
-    return NULL;
 }
 
 int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
@@ -240,21 +247,15 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
     if (oSymTable->numNodes == 0) {
         return 0;
     }
-    /*hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
-    psNewNode = &(oSymTable->psFirstNode[hash]);
-    if(!strcmp(psNewNode->pvKey, pcKey)) { *//* edge case *//*
-        return 1;
-    }
-    while (psNewNode->psNextNode) {
-        psNewNode = psNewNode->psNextNode;
-        if (!strcmp(psNewNode->pvKey, pcKey)) {
-            return 1;
-        }
-    }
-    return 0;*/
+    /*hash the key
+     * walk through the list that correpsonds to k
+     *
+     *
+     *
+     */
 
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
-    psNewNode = &(oSymTable->psFirstNode[hash]);
+    psNewNode = oSymTable->psFirstNode[hash];
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return 1;
     }
@@ -276,15 +277,11 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
 
     assert(oSymTable != NULL);
 
-    psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
-    if (psNewNode == NULL) {
-        return NULL;
-    }
     if (oSymTable->numNodes == 0) {
         return 0;
     }
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
-    psNewNode = &(oSymTable->psFirstNode[hash]);
+    psNewNode = oSymTable->psFirstNode[hash];
 
     if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
         return (void *) psNewNode->pvValue;
@@ -312,7 +309,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
-    psNewNode = &(oSymTable->psFirstNode[hash]);
+    psNewNode = oSymTable->psFirstNode[hash];
     if (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) {
         value = psNewNode->pvValue;
         oSymTable->psFirstNode = psNewNode->psNextNode;
@@ -338,55 +335,6 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         oSymTable->numNodes--;
         return value;
     }
-    /*
-    if (oSymTable->numNodes == 1) {
-        if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */ /*
-            nextNode = psNewNode;
-            value = psNewNode->pvValue;
-            oSymTable->psFirstNode = NULL;
-            free(nextNode->pvKey);
-            free(nextNode);
-            oSymTable->numNodes--;
-            return value;
-        }
-    }
-    while (psNewNode->psNextNode){
-        if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */ /*
-            nextNode = psNewNode->psNextNode;
-            value = nextNode->pvValue;
-            psNewNode->psNextNode = nextNode->psNextNode;
-            free(nextNode->pvKey);
-            free(nextNode);
-            oSymTable->numNodes--;
-            return value;
-        }
-        psNewNode = psNewNode->psNextNode;
-    }
-    /*
-    if (!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
-    /*
-        nextNode = psNewNode;
-        value = nextNode->pvValue;
-        psNewNode->psNextNode = nextNode->psNextNode;
-        free(nextNode->pvKey);
-        free(nextNode);
-        oSymTable->numNodes--;
-        return value;
-    }
-    while (psNewNode->psNextNode) {
-        if (!strcmp(psNewNode->psNextNode->pvKey, pcKey)) {
-            nextNode = psNewNode->psNextNode;
-            value = nextNode->pvValue;
-            psNewNode->psNextNode = nextNode->psNextNode;
-            free(nextNode->pvKey);
-            free(nextNode);
-            oSymTable->numNodes--;
-            return value;
-        }
-        psNewNode = psNewNode->psNextNode;
-    }
-    */
-    return NULL;
 }
 
 void SymTable_map(SymTable_T oSymTable,
@@ -403,9 +351,9 @@ void SymTable_map(SymTable_T oSymTable,
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
-    pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra); /* edge case */
     for(i = 0; i < oSymTable->buckets[0]; i++) {
-        psNewNode = &(oSymTable->psFirstNode[i]);
+        psNewNode = oSymTable->psFirstNode[i];
+        pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra); /* edge case */
         while (psNewNode->psNextNode) {
             psNewNode = psNewNode->psNextNode;
             pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra);
