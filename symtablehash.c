@@ -29,7 +29,7 @@ struct symTable
     /* The address of the first symTableNode. */
     struct symTableNode **psFirstNode;
     /* number of nodes in the symbol table */
-    size_t numNodes;
+    int numNodes;
 
     int *buckets;
 };
