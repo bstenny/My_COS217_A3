@@ -63,7 +63,7 @@ void SymTable_free(SymTable_T oSymTable)
     assert(oSymTable != NULL);
 
     for(i = 0; i < oSymTable->buckets[0]; i++) {
-        psCurrentNode = oSymTable->psFirstNode[i].psNextNode;
+        psCurrentNode = oSymTable->psFirstNode[i];
         while (psCurrentNode) {
             psNextNode = psCurrentNode;
             psCurrentNode = psCurrentNode->psNextNode;
@@ -312,7 +312,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     psNewNode = oSymTable->psFirstNode[hash];
     if (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) {
         value = psNewNode->pvValue;
-        oSymTable->psFirstNode = psNewNode->psNextNode;
+        oSymTable->psFirstNode[hash] = psNewNode->psNextNode;
         free(psNewNode->pvKey);
         free(psNewNode);
         oSymTable->numNodes--;
@@ -346,10 +346,10 @@ void SymTable_map(SymTable_T oSymTable,
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
-        return NULL;
+        return;
     }
     if (oSymTable->numNodes == 0) {
-        return NULL;
+        return;
     }
     for(i = 0; i < oSymTable->buckets[0]; i++) {
         psNewNode = oSymTable->psFirstNode[i];
