@@ -100,7 +100,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
 }
 
 /* need to work on this one. It feels a bit messy and i might be able to do it easier. Ask in office hours */
-static void SymTable_rehash(SymTable_T oSymTable) {
+/*static void SymTable_rehash(SymTable_T oSymTable) {
     int i;
     int hash;
     struct symTableNode *oldNode;
@@ -141,7 +141,7 @@ static void SymTable_rehash(SymTable_T oSymTable) {
 
     }
     free(oldNode);
-}
+}*/
 
 int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 {
@@ -156,9 +156,9 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     assert(oSymTable != NULL);
 
     /* maybe do something different here? Do I need another function? */
-    if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
+/*    if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
         SymTable_rehash(oSymTable);
-    }
+    }*/
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = oSymTable->psFirstNode[hash];
 
