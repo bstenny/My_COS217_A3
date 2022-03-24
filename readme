@@ -93,6 +93,36 @@ disagreements with them? Copy the splint warnings here, and express your
 disagreement after each warning. If there are no warnings, then write
 "None."
 
+symtablehash.c: (in function SymTable_put)
+symtablehash.c:129:5: Assignment of size_t to int:
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]))
+  To allow arbitrary integral types to match any integral type, use
+  +matchanyintegral.
+symtablehash.c: (in function SymTable_replace)
+symtablehash.c:167:5: Assignment of size_t to int:
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]))
+symtablehash.c: (in function SymTable_contains)
+symtablehash.c:215:5: Assignment of size_t to int:
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]))
+symtablehash.c: (in function SymTable_get)
+symtablehash.c:241:5: Assignment of size_t to int:
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]))
+symtablehash.c: (in function SymTable_remove)
+symtablehash.c:267:5: Assignment of size_t to int:
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]))
+symtablehash.c: (in function SymTable_map)
+
+All of these are because I set up my bucketCounts array to be ints. I tried
+changing it to size_t but it caused issues. As far as I know,
+I think it is totally fine to do this.
+
+symtablehash.c:322:9: Statement has no effect: pfApply((const c...
+  Statement has no visible effect --- no values are modified. (Use -noeffect to
+  inhibit warning)
+symtablehash.c:325:13: Statement has no effect: pfApply((const c...
+I disagree with these. the pfApply function will be defined by the client
+and will modify the values to their liking.
+
 
 
 ------------------------------------------------------------------------

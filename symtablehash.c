@@ -121,6 +121,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
         return 0;
     }
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
     /* maybe do something different here? */
     /*if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
@@ -162,6 +163,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     void *value;
     int hash;
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
 
     hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]));
@@ -234,6 +236,7 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     struct symTableNode *psNewNode;
 
     assert(oSymTable != NULL);
+    assert(pcKey != NULL);
 
     if (oSymTable->numNodes == 0) {
         return NULL;
