@@ -309,6 +309,7 @@ void SymTable_map(SymTable_T oSymTable,
     int i;
     struct symTableNode *psNewNode;
     assert(oSymTable != NULL);
+    assert(pfApply != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
         return;

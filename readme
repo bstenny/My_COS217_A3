@@ -59,7 +59,7 @@ symtablelist.c:275:5: Statement has no effect: pfApply((const c...
   Statement has no visible effect --- no values are modified. (Use -noeffect to
   inhibit warning)
 symtablelist.c:278:9: Statement has no effect: pfApply((const c...
-I disagree with this. the pfApply function will be defined by the client
+I disagree with these. the pfApply function will be defined by the client
 and will modify the values to their liking.
 
 
@@ -69,6 +69,24 @@ What warnings does critTer generate on symtablelist.c, and what are your
 disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
+
+symtablelist.c: line 71: medium priority:
+Do you want to validate 'pvValue' through an assert?
+
+symtablelist.c: line 101: medium priority:
+Do you want to validate 'pvValue' through an assert?
+
+For the first two, I do not want to validate that pvValue is not NULL
+There are reasons why you might want to keep it NULL and the test code
+even sets it as NULL sometimes.
+
+symtablelist.c: line 234: medium priority:
+Do you want to validate 'pfApply' through an assert?
+
+symtablelist.c: line 234: medium priority:
+Do you want to validate 'pvExtra' through an assert?
+
+
 
 
 
