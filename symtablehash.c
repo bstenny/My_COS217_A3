@@ -313,7 +313,10 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         return NULL;
     }
     psNewNode = oSymTable->psFirstNode[hash];
-    if (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) {
+    if (psNewNode == NULL) {
+        return NULL;
+    }
+    if (strcmp(psNewNode->pvKey, pcKey) == 0) {
         value = psNewNode->pvValue;
         oSymTable->psFirstNode[hash] = psNewNode->psNextNode;
         free(psNewNode->pvKey);
