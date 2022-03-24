@@ -200,7 +200,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     if (strcmp(psNewNode->pvKey, pcKey) == 0) {
         value = (void*)(psNewNode->pvValue);
         oSymTable->psFirstNode = psNewNode->psNextNode;
-        free(psNewNode->(const void*)(pvKey));
+        free((void*)(psNewNode->pvKey));
         free(psNewNode);
         oSymTable->numNodes--;
         return value;
@@ -217,7 +217,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     else {
         value = (void*)(psNewNode->pvValue);
         prevNode->psNextNode = psNewNode->psNextNode;
-        free(psNewNode->(const void*)(pvKey));
+        free((void*)(psNewNode->pvKey));
         free(psNewNode);
         oSymTable->numNodes--;
         return value;
