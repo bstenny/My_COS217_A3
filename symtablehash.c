@@ -286,11 +286,14 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return (void *) psNewNode->pvValue;
     }
-    while (psNewNode->psNextNode) {
+    while (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) != 0) {
         psNewNode = psNewNode->psNextNode;
-        if (strcmp(psNewNode->pvKey, pcKey) == 0) {
-            return (void *) psNewNode->pvValue;
-        }
+    }
+    if (psNewNode == NULL) {
+        return;
+    }
+    else {
+        return (void *) psNewNode->pvValue;
     }
     return NULL;
 }
