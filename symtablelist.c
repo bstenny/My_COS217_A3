@@ -200,7 +200,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     if (strcmp(psNewNode->pvKey, pcKey) == 0) {
         value = (void*)(psNewNode->pvValue);
         oSymTable->psFirstNode = psNewNode->psNextNode;
-        free(psNewNode->((const void*)pvKey));
+        free(psNewNode->(const void*)pvKey);
         free(psNewNode);
         oSymTable->numNodes--;
         return value;
@@ -217,7 +217,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     else {
         value = (void*)(psNewNode->pvValue);
         prevNode->psNextNode = psNewNode->psNextNode;
-        free(psNewNode->((const void*)pvKey));
+        free(psNewNode->(const void*)pvKey);
         free(psNewNode);
         oSymTable->numNodes--;
         return value;
@@ -266,10 +266,10 @@ void SymTable_map(SymTable_T oSymTable,
     assert(oSymTable != NULL);
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
-        return NULL;
+        return;
     }
     if (oSymTable->numNodes == 0) {
-        return NULL;
+        return;
     }
     psNewNode = oSymTable->psFirstNode;
     pfApply((const char *) psNewNode->pvKey, (void *)psNewNode->pvValue, (void *)pvExtra); /* edge case */
