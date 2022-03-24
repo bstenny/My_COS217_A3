@@ -68,7 +68,7 @@ void SymTable_free(SymTable_T oSymTable)
             psNextNode = psCurrentNode;
             psCurrentNode = psCurrentNode->psNextNode;
             if (psNextNode->pvKey) {
-                free(psNextNode->(const void*)pvKey);
+                free(psNextNode->((const void*)pvKey));
             }
                 free (psNextNode);
             }
@@ -206,12 +206,12 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
 
     if (psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         if (pvValue == NULL) {
-            (const void*)value = psNewNode->pvValue;
+            value = (void*)(psNewNode->pvValue);
             psNewNode->pvValue = NULL;
             return value;
         }
         else {
-            (const void*)value = psNewNode->pvValue;
+            value = (void*)(psNewNode->pvValue);
             psNewNode->pvValue = (void *) pvValue;
             return value;
         }
@@ -224,12 +224,12 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     }
     else {
         if (pvValue == NULL) {
-            (const void*)value = psNewNode->pvValue;
+            value = (void*)(psNewNode->pvValue);
             psNewNode->pvValue = NULL;
             return value;
         }
         else {
-            (const void*)value = psNewNode->pvValue;
+            value = (void*)(psNewNode->pvValue);
             psNewNode->pvValue = (void *) pvValue;
             return value;
         }
@@ -317,7 +317,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         return NULL;
     }
     if (strcmp(psNewNode->pvKey, pcKey) == 0) {
-        (const void*)value = psNewNode->pvValue;
+        value = (void*)(psNewNode->pvValue);
         oSymTable->psFirstNode[hash] = psNewNode->psNextNode;
         free(psNewNode->(const void*)pvKey);
         free(psNewNode);
@@ -334,7 +334,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
         return NULL;
     }
     else {
-        (const void*)value = psNewNode->pvValue;
+        value = (void*)(psNewNode->pvValue);
         prevNode->psNextNode = psNewNode->psNextNode;
         free(psNewNode->(const void*)pvKey);
         free(psNewNode);
