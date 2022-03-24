@@ -283,12 +283,12 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
     psNewNode = oSymTable->psFirstNode[hash];
 
-    if(!strcmp(psNewNode->pvKey, pcKey)) { /* edge case */
+    if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return (void *) psNewNode->pvValue;
     }
     while (psNewNode->psNextNode) {
         psNewNode = psNewNode->psNextNode;
-        if (!strcmp(psNewNode->pvKey, pcKey)) {
+        if (strcmp(psNewNode->pvKey, pcKey) == 0) {
             return (void *) psNewNode->pvValue;
         }
     }
