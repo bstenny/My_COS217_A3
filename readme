@@ -2,7 +2,7 @@ Assignment 3 readme File
 
 ------------------------------------------------------------------------
 What is your name?
-
+Blake Stenstrom
 
 
 ------------------------------------------------------------------------
@@ -30,7 +30,9 @@ unauthorized sources of information.
 
 ------------------------------------------------------------------------
 What is your assessment of the assignment? Was it helpful? Was it fun?
-
+This was a very helpful assignment. While it took me a bit of work to
+get through some bugs that I had, I felt very accomplished after I finished
+it.
 
 
 ------------------------------------------------------------------------
@@ -79,18 +81,18 @@ implementation, (2) your non-expanding hash table implementation, and
 (3) your expanding hash table implementation? Fill in the blanks.
 
 The linked list implementation with:
--- 50 bindings consumed ________ seconds.
--- 500 bindings consumed ________ seconds.
--- 5000 bindings consumed ________ seconds.
--- 50000 bindings consumed ________ seconds.
--- 500000 bindings consumed ________ seconds.
+-- 50 bindings consumed 0.0 seconds.
+-- 500 bindings consumed 0.01 seconds.
+-- 5000 bindings consumed 0.99 seconds.
+-- 50000 bindings consumed 96.62 seconds.
+-- 500000 bindings consumed More than 5 minutes.
 
 The non-expanding hash table implementation with:
--- 50 bindings consumed ________ seconds.
--- 500 bindings consumed ________ seconds.
--- 5000 bindings consumed ________ seconds.
--- 50000 bindings consumed ________ seconds.
--- 500000 bindings consumed ________ seconds.
+-- 50 bindings consumed 0.0 seconds.
+-- 500 bindings consumed 0.0 seconds.
+-- 5000 bindings consumed 0.01 seconds.
+-- 50000 bindings consumed 0.4 seconds.
+-- 500000 bindings consumed 68.41 seconds.
 
 The expanding hash table implementation with:
 -- 50 bindings consumed ________ seconds.
