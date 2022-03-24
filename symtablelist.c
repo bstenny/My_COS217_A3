@@ -80,6 +80,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
 
     psNewNode = (struct symTableNode*)malloc(sizeof(struct symTableNode));
     if (psNewNode == NULL) {
+        free(tempKey);
         return 0;
     }
 
