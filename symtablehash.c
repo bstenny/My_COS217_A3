@@ -99,6 +99,7 @@ static size_t SymTable_hash(const char *pcKey, size_t uBucketCount)
     return uHash % uBucketCount;
 }
 
+/* need to work on this one. It feels cobbled together. Ask in office hours */
 static void SymTable_rehash(SymTable_T oSymTable) {
     int i;
     int hash;
@@ -118,6 +119,7 @@ static void SymTable_rehash(SymTable_T oSymTable) {
         (oSymTable->buckets)--;
         return;
     }
+
     for (i = 0; i < oSymTable->buckets[0]; i++) {
         oSymTable->psFirstNode[i].psNextNode = NULL;
         oSymTable->psFirstNode[i].pvKey = NULL;
