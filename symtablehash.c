@@ -81,7 +81,7 @@ void SymTable_free(SymTable_T oSymTable)
 
 size_t SymTable_getLength(SymTable_T oSymTable) {
     assert(oSymTable != NULL);
-    return oSymTable->numNodes;
+    return (size_t)(oSymTable->numNodes);
 }
 
 /* Return a hash code for pcKey that is between 0 and uBucketCount-1,
@@ -126,7 +126,7 @@ int SymTable_put(SymTable_T oSymTable, const char *pcKey, const void *pvValue)
     /*if (oSymTable->numNodes >= oSymTable->buckets[0] && oSymTable->buckets[0] < 65521) {
         SymTable_rehash(oSymTable);
     }*/
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]));
     psNewNode = oSymTable->psFirstNode[hash];
 
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
@@ -164,7 +164,7 @@ void *SymTable_replace(SymTable_T oSymTable, const char *pcKey,
     assert(oSymTable != NULL);
 
 
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]));
     psNewNode = oSymTable->psFirstNode[hash];
 
 
@@ -212,7 +212,7 @@ int SymTable_contains(SymTable_T oSymTable, const char *pcKey) {
         return 0;
     }
 
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]));
     psNewNode = oSymTable->psFirstNode[hash];
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
         return 1;
@@ -236,9 +236,9 @@ void *SymTable_get(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
 
     if (oSymTable->numNodes == 0) {
-        return 0;
+        return NULL;
     }
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]));
     psNewNode = oSymTable->psFirstNode[hash];
 
     if(psNewNode != NULL && strcmp(psNewNode->pvKey, pcKey) == 0) { /* edge case */
@@ -264,7 +264,7 @@ void *SymTable_remove(SymTable_T oSymTable, const char *pcKey) {
     assert(oSymTable != NULL);
     assert(pcKey != NULL);
 
-    hash = SymTable_hash(pcKey, oSymTable->buckets[0]);
+    hash = SymTable_hash(pcKey, (size_t)(oSymTable->buckets[0]));
     if (oSymTable->numNodes == 0) {
         return NULL;
     }
