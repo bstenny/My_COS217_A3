@@ -46,6 +46,15 @@ it.
 (optional) What information can you provide about your submission that
 will help your grader to grade it in the most favorable light? In
 particular, what bugs are in your submission?
+I worked in office hours to get my functions to work. There are a few pieces
+of my logic that may look kinda funny, but I kept testing and editing and testing
+and editing to get things to run before really honing in on the finer parts of my code.
+I think I will go to office hours earlier next time so that I have a really
+good foundation to work off of.
+In terms of my hash table expansion, I tried a lot of things to get it to work.
+I had at one point like 4 different node objects in my rehash function
+that I created to see if it would expand correctly and I couldn't get
+it to work. I am interested to see what I could have done differently.
 
 
 
@@ -131,6 +140,18 @@ disagreements with them? Copy the critTer warnings here, and express
 your disagreement after each warning. If there are no warnings, then
 write "None."
 
+symtablehash.c: line 114: medium priority:
+Do you want to validate 'pvValue' through an assert?
+
+symtablehash.c: line 161: medium priority:
+Do you want to validate 'pvValue' through an assert?
+
+symtablehash.c: line 307: medium priority:
+Do you want to validate 'pvExtra' through an assert?
+
+I do not want to validate pvExtra is not NULL. There are reasons why
+the client might want it to be NULL, especially if it doesn't serve
+a purpose and we do not want to confuse anyone who reads our code.
 
 
 ------------------------------------------------------------------------
@@ -154,6 +175,7 @@ The non-expanding hash table implementation with:
 -- 500000 bindings consumed 68.41 seconds.
 
 The expanding hash table implementation with:
+My expanding hash table does not work
 -- 50 bindings consumed ________ seconds.
 -- 500 bindings consumed ________ seconds.
 -- 5000 bindings consumed ________ seconds.
